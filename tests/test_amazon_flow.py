@@ -240,7 +240,8 @@ def driver():
     yield driver
     driver.quit()
 
-def test_end_to_end_flow(driver):
+def test_amazon_end_to_end_purchase_flow(driver):
+
     # Try to load cookies first; if cookies loaded, skip manual login.
     cookies_loaded = False
     try:
@@ -251,7 +252,7 @@ def test_end_to_end_flow(driver):
 
     login = LoginPage(driver)
 
-    # If cookies not loaded, perform manual login with pause then save cookies
+    
     if not cookies_loaded:
         try:
             login.open_home(config.BASE_URL)
@@ -266,28 +267,26 @@ def test_end_to_end_flow(driver):
             debug_dump(driver, "open_login_timeout")
             raise
 
-        # Manual pause for human to solve CAPTCHA/OTP if Amazon blocks
         print("⚠️ Please complete manual login in the opened Chrome window (solve CAPTCHA/OTP).")
         print("When signed in, return to this PowerShell and press Enter to continue...")
         input()
 
-        # after manual sign-in, save cookies for future runs
+        
         try:
             save_cookies(driver)
         except Exception as e:
             print("Warning: could not save cookies:", e)
     else:
-        # Cookies loaded; ensure page reflects logged-in state
+       
         try:
             driver.get(config.BASE_URL)
             time.sleep(2)
         except Exception as e:
             print("Could not navigate home after loading cookies:", e)
 
-    # Small stabilizing wait
+   
     time.sleep(1)
 
-    # Proceed with search -> product -> add to cart -> checkout
     search = SearchPage(driver)
     try:
         search.search_for(config.SEARCH_ITEM)
