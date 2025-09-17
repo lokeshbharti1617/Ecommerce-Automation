@@ -4,18 +4,17 @@
  
 
 ---
-
 ## 📌 Project Description
-This project demonstrates end-to-end automation of an e-commerce user journey on **Amazon.in** using **Python, Selenium, and Pytest**.  
+I built this project to automate a simple shopping flow on **Amazon.in** . 
 
-The automated flow covers:
-- Opening Amazon.in  
-- Logging in (manual CAPTCHA/OTP solving on first run, with cookie persistence for later runs)  
+The flow includes:
+- Logging in (manual CAPTCHA/OTP on first run, then cookies to skip login)  
 - Searching for a product  
-- Opening the first product from search results  
-- Adding it to the cart  
-- Proceeding to checkout  
-- Stopping safely at the payment page  
+- Adding the product to cart  
+- Going to checkout (but stopping before payment to avoid placing a real order)  
+
+This helped me practice Selenium with Python, use Page Object Model for cleaner code, and learn how to save cookies for reuse.  
+
 
 
 
