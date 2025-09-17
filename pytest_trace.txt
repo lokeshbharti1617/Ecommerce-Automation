@@ -1,0 +1,91 @@
+﻿F                                                                        [100%]
+================================== FAILURES ===================================
+____________________________ test_end_to_end_flow _____________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="293dbad6b8ade8f485f616b3a2217590")>
+
+    def test_end_to_end_flow(driver):
+        login = LoginPage(driver)
+        try:
+            login.open_home(config.BASE_URL)
+        except Exception as e:
+            print("Failed to open home:", e)
+            raise
+    
+        try:
+            login.open_login()
+        except TimeoutException:
+            print("[ERROR] Timeout while trying to open login. Dumping debug info.")
+            debug_dump(driver, "open_login_timeout")
+            raise
+    
+        try:
+>           login.login(config.USERNAME, config.PASSWORD)
+
+tests\test_amazon_flow.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_amazon_flow.py:77: in login
+    pwd = self.wait.until(EC.presence_of_element_located((By.ID, "ap_password")))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="293dbad6b8ade8f485f616b3a2217590")>
+method = <function presence_of_element_located.<locals>._predicate at 0x00000110BF6ABBA0>
+message = ''
+
+    def until(self, method, message: str = ""):
+        """Calls the method provided with the driver as an argument until the \
+        return value does not evaluate to ``False``.
+    
+        :param method: callable(WebDriver)
+        :param message: optional message for :exc:`TimeoutException`
+        :returns: the result of the last call to `method`
+        :raises: :exc:`selenium.common.exceptions.TimeoutException` if timeout occurs
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            time.sleep(self._poll)
+            if time.monotonic() > end_time:
+                break
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       	GetHandleVerifier [0x0x7ff7965afc95+79861]
+E       	GetHandleVerifier [0x0x7ff7965afcf0+79952]
+E       	(No symbol) [0x0x7ff79632cada]
+E       	(No symbol) [0x0x7ff796384457]
+E       	(No symbol) [0x0x7ff79638471c]
+E       	(No symbol) [0x0x7ff7963d8217]
+E       	(No symbol) [0x0x7ff7963acb1f]
+E       	(No symbol) [0x0x7ff7963d4f8b]
+E       	(No symbol) [0x0x7ff7963ac8b3]
+E       	(No symbol) [0x0x7ff796375272]
+E       	(No symbol) [0x0x7ff796376043]
+E       	GetHandleVerifier [0x0x7ff79686b9cd+2946349]
+E       	GetHandleVerifier [0x0x7ff796865c4a+2922410]
+E       	GetHandleVerifier [0x0x7ff7968859d7+3052855]
+E       	GetHandleVerifier [0x0x7ff7965caa7e+189918]
+E       	GetHandleVerifier [0x0x7ff7965d2a1f+222591]
+E       	GetHandleVerifier [0x0x7ff7965b8ab4+116244]
+E       	GetHandleVerifier [0x0x7ff7965b8c69+116681]
+E       	GetHandleVerifier [0x0x7ff79659f048+11176]
+E       	BaseThreadInitThunk [0x0x7ffe9d0c7374+20]
+E       	RtlUserThreadStart [0x0x7ffe9e0dcc91+33]
+
+venv\Lib\site-packages\selenium\webdriver\support\wait.py:95: TimeoutException
+---------------------------- Captured stdout call -----------------------------
+[ERROR] Timeout during login (maybe selector changed or CAPTCHA). Dumping debug info.
+[DEBUG] Saved screenshot -> C:\Users\LOKESH\Desktop\Project automation\debug\login_timeout_20250916_232445.png
+[DEBUG] Saved page source -> C:\Users\LOKESH\Desktop\Project automation\debug\login_timeout_20250916_232445.html
+=========================== short test summary info ===========================
+FAILED tests/test_amazon_flow.py::test_end_to_end_flow - selenium.common.exce...
+1 failed in 77.69s (0:01:17)
